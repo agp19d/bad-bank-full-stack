@@ -1,0 +1,14 @@
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* This will push the div to the right */
+  }
+  
+  .username {
+    margin-left: 5px; /* Space between the icon and the username */
+  }
+  
+  .nav-link:hover {
+    font-weight: bold;
+  }
+  
