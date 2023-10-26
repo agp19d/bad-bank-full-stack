@@ -1,9 +1,17 @@
+// server.js
+
+// Environment setup
+const envPath = process.env.NODE_ENV === 'production' ? '.env.prod' : '.env.dev';
+require('dotenv').config({ path: envPath });
+
 const express = require('express');
 const app = express();
 const cors = require('cors');
 const dal = require('./dal.js');
 const User = require('./Users');
 
+// Extract port. Default to 5000 if not set
+const port = process.env.PORT || 5000; 
 
 app.use(cors());
 app.use(express.json()); // For parsing JSON request body
@@ -98,7 +106,6 @@ app.get('/api/getAllUsers', async (req, res) => {
 // Connect to the database
 dal.connectDb().then(() => {
     console.log('Connected successfully to the database');
-    const port = 5000;
     app.listen(port, () => {
         console.log('Running on port: ' + port);
     });

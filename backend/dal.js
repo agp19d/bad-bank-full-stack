@@ -1,8 +1,10 @@
+// dal.js
 const mongoose = require('mongoose');
 const User = require('./Users');
+const connectionString = process.env.DB_CONNECTION_STRING || "mongodb://localhost:27017/myproject_dev"
 
 const connectDb = () => {
-  return mongoose.connect('mongodb://localhost:27017/myproject', {useNewUrlParser: true, useUnifiedTopology: true});
+  return mongoose.connect(connectionString, {useNewUrlParser: true, useUnifiedTopology: true});
 };
 
 // Create user function
@@ -16,26 +18,7 @@ const create = async (name, email, password) => {
   }
 };
 
-// // Find user function
-// const find = async (email) => {
-//     try {
-//       const user = await User.findOne({ email });
-//       return user;
-//     } catch (err) {
-//       throw err;
-//     }
-//   };
-  
-//   // Find user function
-// const findUser = async (name) => {
-//   try {
-//     const user = await User.findOne({ name });
-//     return user;
-//   } catch (err) {
-//     throw err;
-//   }
-// };
-
+// Find user function
 const find = async ({ name, email }) => {
   try {
       let query = {};
@@ -63,4 +46,4 @@ const find = async ({ name, email }) => {
 
 
 
-  module.exports = { create, connectDb, find };
+module.exports = { create, connectDb, find };
