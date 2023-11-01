@@ -6,6 +6,8 @@ on:
       - 'front-end/**'  # Only trigger when files in front-end directory change
     branches:
       - dev  # Trigger on push to main branch
+      
+  workflow_dispatch:  # Allows manual triggering of the workflow
 
 jobs:
   build_and_deploy:
