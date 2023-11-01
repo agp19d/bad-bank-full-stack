@@ -1,0 +1,38 @@
+name: Deploy Frontend
+
+on:
+  push:
+    paths:
+      - 'front-end/**'  # Only trigger when files in front-end directory change
+    branches:
+      - dev  # Trigger on push to main branch
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14'  # Adjust as per your project needs
+    
+    - name: Install dependencies
+      run: |
+        cd front-end
+        npm ci
+    
+    - name: Build project
+      run: |
+        cd front-end
+        npm run build
+
+    - name: Deploy to Azure Blob Storage
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          az storage blob upload-batch --account-name fullstackbankingweb --source ./front-end/build --destination '$web' 
+        azcreds: ${{ secrets.AZURE_CREDENTIALS }}
