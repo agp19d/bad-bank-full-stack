@@ -1,7 +1,7 @@
 // dal.js
 const mongoose = require('mongoose');
 const User = require('./Users');
-const connectionString = process.env.DB_CONNECTION_STRING || "mongodb://localhost:27017/myproject_dev"
+const connectionString = process.env.DB_CONNECTION_STRING  || "mongodb://localhost:27017/myproject"
 
 const connectDb = () => {
   return mongoose.connect(connectionString, {useNewUrlParser: true, useUnifiedTopology: true});

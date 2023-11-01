@@ -112,3 +112,7 @@ dal.connectDb().then(() => {
 }).catch((err) => {
     console.error('Failed to connect to the database', err);
 });
+
+
+// Export app
+module.exports = app;
