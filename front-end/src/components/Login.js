@@ -11,6 +11,7 @@ import { useAuth } from '../context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';  // Ensure axios is imported
+const REACT_APP_BACKEND_URL="https://full-stack-banking-api-b10d38f030b4.herokuapp.com";
 
 function Login() {
 
@@ -33,7 +34,7 @@ function Login() {
     };
 
     // Check credentials against database and perform login logic
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/login`, userCredentials)
+    axios.post(`${REACT_APP_BACKEND_URL}/api/login`, userCredentials)
       .then((response) => {
         setIsLoggedIn(true);
         setUserIcon(<FontAwesomeIcon icon={faUser} />);

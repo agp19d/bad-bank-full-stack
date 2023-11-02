@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Button, Form, Container, Alert, Card } from 'react-bootstrap';
 import axios from 'axios';
+const REACT_APP_BACKEND_URL="https://full-stack-banking-api-b10d38f030b4.herokuapp.com";
 
 function Account() {
 
@@ -48,7 +49,7 @@ function Account() {
     try {
 
       // Sending a POST request to update the user's balance on the backend
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/updateBalance`, {
+      const response = await axios.post(`${REACT_APP_BACKEND_URL}/api/updateBalance`, {
           name,
           newBalance
       });
