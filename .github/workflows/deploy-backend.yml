@@ -75,7 +75,7 @@ name: Deploy Backend
 on:
   push:
     paths:
-      - 'backend/**'  # Only trigger when files in front-end directory change
+      - 'backend/**'
     branches:
       - dev
   workflow_dispatch:
@@ -94,21 +94,34 @@ jobs:
       with:
         node-version: ${{ matrix.node_version }}
 
-    - run: cd backend
-    - run: npm install
-    - run: npm run build --if-present
-    - run: echo "DB_CONNECTION_STRING=${{ secrets.DB_CONNECTION_STRING }}" > .env.prod
-    - run: echo "PORT=${{ secrets.PORT }}" >> .env.prod       
+    - name: Install dependencies
+      run: npm install
+      working-directory: backend
 
+    - name: Copy env variables
+      run: |
+        echo "DB_CONNECTION_STRING=${{ secrets.DB_CONNECTION_STRING }}" > .env.prod
+        echo "PORT=${{ secrets.PORT }}" >> .env.prod
+      working-directory: backend
+
+    - name: Build
+      run: npm run build --if-present
+      working-directory: backend
 
   deploy:
     needs: test
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
+
+    - name: Move backend files to root
+      run: |
+        cp -r backend/* .
+        cp backend/.env.prod .
+
     - name: Deploy to Heroku
       uses: akhileshns/heroku-deploy@v3.12.12
       with:
         heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
         heroku_app_name: "full-stack-banking-api"
         heroku_email: "agdpcloud@gmail.com"
-
