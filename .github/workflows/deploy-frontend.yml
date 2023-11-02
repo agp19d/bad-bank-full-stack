@@ -42,6 +42,14 @@ jobs:
         cd front-end/build
         ls -al
 
+    # Clear existing files in $web container
+    - name: Clear Azure Blob Storage
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          az storage blob delete-batch --account-name fullstackbankingweb --auth-mode key -s '$web'
+
+    # Deploy new files
     - name: Deploy to Azure Blob Storage
       uses: azure/CLI@v1
       with:

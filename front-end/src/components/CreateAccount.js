@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { Button, Form, Container, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+const REACT_APP_BACKEND_URL="https://full-stack-banking-api-b10d38f030b4.herokuapp.com";
 
 function CreateAccount() {
 
@@ -51,7 +52,7 @@ function CreateAccount() {
 
     // Store user in mongoDB
     axios
-    .post(`${process.env.REACT_APP_BACKEND_URL}/api/register`, user)
+    .post(`${REACT_APP_BACKEND_URL}/api/register`, user)
     .then((response) => {
       setSuccess('Account created successfully! Redirecting to login...');
       setTimeout(() => {
