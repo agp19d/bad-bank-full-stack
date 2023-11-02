@@ -7,7 +7,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Table, Container } from 'react-bootstrap';
 import axios from 'axios'
-const REACT_APP_BACKEND_URL="https://full-stack-banking-api-b10d38f030b4.herokuapp.com";
+// const REACT_APP_BACKEND_URL="https://full-stack-banking-api-b10d38f030b4.herokuapp.com";
 
 function AllData() {
   
