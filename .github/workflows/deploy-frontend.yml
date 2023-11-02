@@ -35,6 +35,7 @@ jobs:
     - name: Deploy to Azure Blob Storage
       uses: azure/CLI@v1
       with:
+        azcliversion: 2.0.72
         inlineScript: |
-          az storage blob upload-batch --account-name fullstackbankingweb --source ./front-end/build --destination '$web' 
-        azcreds: ${{ secrets.AZURE_CREDENTIALS }}
+          az storage blob upload-batch --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --destination '$web' --source front-end/build --sas-token ${{ secrets.AZURE_STORAGE_SAS_TOKEN }}
+
