@@ -47,3 +47,7 @@ jobs:
       with:
         inlineScript: |
           az storage blob upload-batch --account-name fullstackbankingweb --auth-mode key -d '$web' -s ./front-end/build/
+      
+    - name: Azure logout
+      run: |
+            az logout
