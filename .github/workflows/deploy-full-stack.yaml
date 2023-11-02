@@ -63,6 +63,8 @@ on:
       - 'front-end/**'
       - 'backend/**'
 
+  workflow_dispatch: 
+
 jobs:
   trigger_workflows:
     runs-on: ubuntu-latest
