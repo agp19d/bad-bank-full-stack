@@ -17,6 +17,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
@@ -40,7 +45,5 @@ jobs:
     - name: Deploy to Azure Blob Storage
       uses: azure/CLI@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-        azcliversion: 2.53.1
         inlineScript: |
           az storage blob upload-batch --account-name fullstackbankingweb --auth-mode key -d '$web' -s .
