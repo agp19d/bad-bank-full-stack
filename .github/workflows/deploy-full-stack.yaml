@@ -1,53 +1,83 @@
+# name: Deploy Full Stack
+
+# on:
+#   push:
+#     paths:
+#       - 'front-end/**'  # Only trigger when files in front-end directory change
+#     branches:
+#       - dev  # Trigger on push to main branch
+      
+#   workflow_dispatch:  # Allows manual triggering of the workflow
+
+# jobs:
+#   build_and_deploy:
+#     runs-on: ubuntu-latest
+    
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v2
+
+#     - name: Azure Login
+#       uses: azure/login@v1
+#       with:
+#         creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+#     - name: Setup Node.js
+#       uses: actions/setup-node@v3
+#       with:
+#         node-version: '14'  # Adjust as per your project needs
+    
+#     - name: Install dependencies
+#       run: |
+#         cd front-end
+#         npm install
+    
+#     - name: Build project
+#       run: |
+#         cd front-end
+#         npm run build
+
+#     - name: List build directory
+#       run: |
+#         cd front-end/build
+#         ls -al
+
+#     - name: Deploy to Azure Blob Storage
+#       uses: azure/CLI@v1
+#       with:
+#         inlineScript: |
+#           az storage blob upload-batch --account-name fullstackbankingweb --auth-mode key -d '$web' -s ./front-end/build/
+      
+#     - name: Azure logout
+#       run: |
+#             az logout
+
 name: Deploy Full Stack
 
 on:
-  push:
-    paths:
-      - 'front-end/**'  # Only trigger when files in front-end directory change
+  pull_request:
+    types: [closed]
     branches:
-      - dev  # Trigger on push to main branch
-      
-  workflow_dispatch:  # Allows manual triggering of the workflow
+      - main
+    paths:
+      - 'front-end/**'
+      - 'backend/**'
 
 jobs:
-  build_and_deploy:
+  trigger_workflows:
     runs-on: ubuntu-latest
-    
+    if: github.event.pull_request.merged == true  # Only run if PR is merged
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Trigger Frontend Deployment Workflow
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: Deploy_Frontend.yml  # Name of your Frontend workflow file
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
 
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14'  # Adjust as per your project needs
-    
-    - name: Install dependencies
-      run: |
-        cd front-end
-        npm install
-    
-    - name: Build project
-      run: |
-        cd front-end
-        npm run build
-
-    - name: List build directory
-      run: |
-        cd front-end/build
-        ls -al
-
-    - name: Deploy to Azure Blob Storage
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-          az storage blob upload-batch --account-name fullstackbankingweb --auth-mode key -d '$web' -s ./front-end/build/
-      
-    - name: Azure logout
-      run: |
-            az logout
+      - name: Trigger Backend Deployment Workflow
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: Deploy_Backend.yml  # Name of your Backend workflow file
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
