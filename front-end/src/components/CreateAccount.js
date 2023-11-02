@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import { Button, Form, Container, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'
+import axios from 'axios';
 
 function CreateAccount() {
 

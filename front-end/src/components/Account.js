@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Button, Form, Container, Alert, Card } from 'react-bootstrap';
-import axios from 'axios'
+import axios from 'axios';
 
 function Account() {
 
