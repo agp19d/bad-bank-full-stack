@@ -32,7 +32,7 @@ jobs:
           echo "PORT=${{ secrets.PORT }}" >> .env.prod       
 
       - name: Zip artifact for deployment
-        run: zip release.zip ./backend/* -r
+        run: zip -r ../release.zip ./*
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
@@ -66,6 +66,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'full-stack-bankin-app-api'
-          slot-name: 'production'
-          # publish-profile: ${{ secrets.AzureAppService_PublishProfile_1234 }}
+          # slot-name: 'production'
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_1234 }}
           package: .
