@@ -25,12 +25,17 @@ jobs:
     - name: Install dependencies
       run: |
         cd front-end
-        npm ci
+        npm install
     
     - name: Build project
       run: |
         cd front-end
         npm run build
+
+    - name: List build directory
+      run: |
+        cd front-end/build
+        ls -al
 
     - name: Deploy to Azure Blob Storage
       uses: azure/CLI@v1
